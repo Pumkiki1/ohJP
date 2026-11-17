@@ -1,0 +1,127 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ------------------------------------------------------------------ */
+/* Design tokens — soft Japanese minimalism                            */
+/* ------------------------------------------------------------------ */
+:root {
+  --bg: #fff9f0; /* warm cream */
+  --surface: #ffffff; /* white cards */
+  --surface-2: #f1e8dc; /* light beige */
+  --ink: #343434; /* dark text */
+  --ink-soft: #6b625d;
+  --sakura: #eba6b9;
+  --sakura-soft: #f7dde5;
+  --sakura-deep: #a8456a; /* accessible pink for text / primary buttons */
+  --matcha: #b8c9a3;
+  --matcha-soft: #e7eedd;
+  --matcha-deep: #4a6636;
+  --line: #ece1d4;
+  --danger: #b6403a;
+  --danger-soft: #fbe3e0;
+  --shadow: 0 1px 2px rgb(52 52 52 / 0.04), 0 6px 20px rgb(52 52 52 / 0.06);
+  color-scheme: light;
+}
+
+.dark {
+  --bg: #1d1a19;
+  --surface: #282322;
+  --surface-2: #332c2a;
+  --ink: #f4ede7;
+  --ink-soft: #bcb1a9;
+  --sakura: #c47f95;
+  --sakura-soft: #48303a;
+  --sakura-deep: #f2a9c2;
+  --matcha: #7d9668;
+  --matcha-soft: #2f3a28;
+  --matcha-deep: #bcd6a5;
+  --line: #3b3330;
+  --danger: #f08e86;
+  --danger-soft: #4a2826;
+  --shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 6px 20px rgb(0 0 0 / 0.25);
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-sakura: var(--sakura);
+  --color-sakura-soft: var(--sakura-soft);
+  --color-sakura-deep: var(--sakura-deep);
+  --color-matcha: var(--matcha);
+  --color-matcha-soft: var(--matcha-soft);
+  --color-matcha-deep: var(--matcha-deep);
+  --color-line: var(--line);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --shadow-soft: var(--shadow);
+  --font-sans: var(--nf-thai), var(--nf-jp), system-ui, sans-serif;
+  --font-jp: var(--nf-jp), "Hiragino Sans", "Yu Gothic", "Noto Sans JP", sans-serif;
+  --font-kana: var(--nf-kana), var(--nf-jp), "Hiragino Mincho ProN", serif;
+  --animate-pop: pop 260ms ease-out;
+  --animate-fade-up: fade-up 320ms ease-out;
+  --animate-shake: shake 360ms ease-in-out;
+}
+
+@keyframes pop {
+  0% { transform: scale(0.96); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+@keyframes fade-up {
+  0% { transform: translateY(6px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  line-height: 1.6;
+}
+
+:focus-visible {
+  outline: 3px solid var(--sakura-deep);
+  outline-offset: 2px;
+  border-radius: 10px;
+}
+
+.jp {
+  font-family: var(--font-jp);
+  line-break: strict;
+}
+
+.kana-display {
+  font-family: var(--font-kana);
+}
+
+/* subtle sakura pattern used in hero cards */
+.sakura-dots {
+  background-image: radial-gradient(var(--sakura-soft) 1.5px, transparent 1.5px);
+  background-size: 18px 18px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media print {
+  .no-print { display: none !important; }
+  body { background: white; color: black; }
+  .print-break { break-inside: avoid; }
+}
