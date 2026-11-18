@@ -67,7 +67,7 @@ export function VocabularyView() {
 
   return (
     <div className="space-y-5">
-      <PageHeader
+      <PageHeader note="เก็บคำที่ชอบไว้ใน ❤️"
         icon="📗"
         title="คลังคำศัพท์"
         subtitle={`${VOCABULARY.length} คำ/ประโยคสำหรับเที่ยวญี่ปุ่น · ค้นหาได้ทั้งภาษาไทย ญี่ปุ่น และโรมาจิ`}

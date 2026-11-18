@@ -108,7 +108,7 @@ export function ProgressView() {
 
   return (
     <div className="space-y-5">
-      <PageHeader icon="📈" title="ความก้าวหน้า" subtitle="ดูว่าเรียนไปถึงไหนแล้ว และควรทบทวนอะไรต่อ" />
+      <PageHeader note="ดูสิ มาไกลแล้วนะ!" icon="📈" title="ความก้าวหน้า" subtitle="ดูว่าเรียนไปถึงไหนแล้ว และควรทบทวนอะไรต่อ" />
 
       <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
         {stats.map((s) => (

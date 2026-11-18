@@ -13,11 +13,13 @@ type Variant = "primary" | "secondary" | "ghost" | "matcha" | "danger";
 type Size = "sm" | "md" | "lg";
 
 const variantClass: Record<Variant, string> = {
-  primary: "bg-sakura-deep text-white hover:brightness-110 shadow-soft dark:text-[#2a1a20]",
-  secondary: "bg-surface text-ink border border-line hover:bg-surface-2",
+  primary:
+    "bg-sakura-deep text-white hover:brightness-110 dark:text-[#2a1a20] shadow-[3px_3px_0_0_var(--bg),3px_3px_0_1.5px_var(--sketch)] hover:shadow-[4px_4px_0_0_var(--bg),4px_4px_0_1.5px_var(--sketch)]",
+  secondary: "bg-surface text-ink border-[1.5px] border-sketch/70 shadow-[2px_2px_0_var(--sketch-soft)] hover:bg-surface-2",
   ghost: "text-ink-soft hover:bg-surface-2 hover:text-ink",
-  matcha: "bg-matcha text-[#24331a] hover:brightness-105 shadow-soft",
-  danger: "bg-danger text-white hover:brightness-110 dark:text-[#2a1a1a]",
+  matcha:
+    "bg-matcha text-[#24331a] hover:brightness-105 shadow-[3px_3px_0_0_var(--bg),3px_3px_0_1.5px_var(--sketch)] dark:text-[#14200e]",
+  danger: "bg-danger text-white hover:brightness-110 dark:text-[#2a1a1a] shadow-[2px_2px_0_var(--sketch-soft)]",
 };
 const sizeClass: Record<Size, string> = {
   sm: "h-9 px-3 text-sm gap-1.5",
@@ -27,7 +29,7 @@ const sizeClass: Record<Size, string> = {
 
 function buttonClass(variant: Variant, size: Size, className?: string) {
   return cx(
-    "inline-flex items-center justify-center rounded-2xl font-semibold transition active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none select-none",
+    "inline-flex items-center justify-center rounded-xl font-semibold transition active:translate-x-px active:translate-y-px disabled:opacity-50 disabled:pointer-events-none select-none",
     variantClass[variant],
     sizeClass[size],
     className,
@@ -55,13 +57,13 @@ export function ButtonLink({
 /* ---------------------------------- Card ---------------------------------- */
 
 export function Card({ className, ...props }: ComponentProps<"div">) {
-  return <div className={cx("rounded-3xl bg-surface border border-line/70 shadow-soft", className)} {...props} />;
+  return <div className={cx("rounded-2xl bg-surface border-[1.5px] border-sketch/60 shadow-soft", className)} {...props} />;
 }
 
 export function CardTitle({ icon, children, action }: { icon?: ReactNode; children: ReactNode; action?: ReactNode }) {
   return (
     <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1.5 mb-3">
-      <h2 className="flex items-center gap-2 font-semibold text-ink min-w-0">
+      <h2 className="flex items-center gap-2 font-semibold text-ink min-w-0 text-[17px]">
         {icon && <span className="text-sakura-deep">{icon}</span>}
         {children}
       </h2>
@@ -84,7 +86,7 @@ const toneClass: Record<Tone, string> = {
 export function Badge({ tone = "neutral", className, ...props }: ComponentProps<"span"> & { tone?: Tone }) {
   return (
     <span
-      className={cx("inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-semibold whitespace-nowrap", toneClass[tone], className)}
+      className={cx("inline-flex items-center gap-1 rounded-full border border-current/25 px-2.5 py-0.5 text-xs font-semibold whitespace-nowrap", toneClass[tone], className)}
       {...props}
     />
   );
@@ -110,7 +112,7 @@ export function ProgressBar({
   const pct = max > 0 ? Math.min(100, Math.max(0, (value / max) * 100)) : 0;
   return (
     <div
-      className={cx("w-full rounded-full bg-surface-2 overflow-hidden", size === "sm" ? "h-2" : "h-3", className)}
+      className={cx("w-full rounded-full bg-surface-2 overflow-hidden border border-sketch/40", size === "sm" ? "h-2.5" : "h-3.5", className)}
       role="progressbar"
       aria-valuemin={0}
       aria-valuemax={max}
@@ -119,7 +121,10 @@ export function ProgressBar({
     >
       <div
         className={cx("h-full rounded-full transition-[width] duration-500", tone === "sakura" ? "bg-sakura" : "bg-matcha")}
-        style={{ width: `${pct}%` }}
+        style={{
+          width: `${pct}%`,
+          backgroundImage: "repeating-linear-gradient(-45deg, rgb(255 255 255 / 0.28) 0 3px, transparent 3px 7px)",
+        }}
       />
     </div>
   );
@@ -194,10 +199,24 @@ export function EmptyState({ icon, title, children }: { icon?: ReactNode; title:
   );
 }
 
-export function PageHeader({ title, subtitle, icon, action }: { title: string; subtitle?: ReactNode; icon?: ReactNode; action?: ReactNode }) {
+export function PageHeader({
+  title,
+  subtitle,
+  icon,
+  action,
+  note,
+}: {
+  title: string;
+  subtitle?: ReactNode;
+  icon?: ReactNode;
+  action?: ReactNode;
+  /** Handwritten pencil note shown above the title */
+  note?: string;
+}) {
   return (
-    <header className="mb-6 flex flex-wrap items-end justify-between gap-3">
+    <header className="mb-7 flex flex-wrap items-end justify-between gap-3">
       <div>
+        {note && <HandNote className="text-lg mb-2.5 mt-1">{note}</HandNote>}
         <h1 className="flex items-center gap-2 text-2xl md:text-3xl font-bold text-ink">
           {icon && <span aria-hidden>{icon}</span>}
           {title}
@@ -206,6 +225,29 @@ export function PageHeader({ title, subtitle, icon, action }: { title: string; s
       </div>
       {action}
     </header>
+  );
+}
+
+/** Handwritten margin note (pencil annotation). */
+export function HandNote({ children, className }: { children: ReactNode; className?: string }) {
+  return <span className={cx("hand-note", className)}>{children}</span>;
+}
+
+/** Title block: the labelled info strip under a drawing ("PROJECT | SCALE | SHEET"). */
+export function TitleBlock({ items, className }: { items: { label: string; value: ReactNode }[]; className?: string }) {
+  return (
+    <dl
+      className={cx("title-block text-sm", className)}
+      data-wrap={items.length >= 4 ? "" : undefined}
+      style={{ gridTemplateColumns: `repeat(${items.length}, minmax(0, 1fr))` }}
+    >
+      {items.map((it) => (
+        <div key={it.label}>
+          <dt className="tb-label">{it.label}</dt>
+          <dd className="font-medium leading-snug break-words">{it.value}</dd>
+        </div>
+      ))}
+    </dl>
   );
 }
 

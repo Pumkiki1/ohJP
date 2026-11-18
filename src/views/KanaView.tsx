@@ -57,7 +57,7 @@ export function KanaView() {
 
   return (
     <div className="space-y-5">
-      <PageHeader icon="🔤" title="ฝึกตัวอักษร" subtitle="ฮิรางานะและคาตากานะ — แตะตัวอักษรเพื่อดูรายละเอียดและฟังเสียง" />
+      <PageHeader note="あいうえお — ลองเขียนตามด้วยนะ" icon="🔤" title="ฝึกตัวอักษร" subtitle="ฮิรางานะและคาตากานะ — แตะตัวอักษรเพื่อดูรายละเอียดและฟังเสียง" />
 
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="inline-flex rounded-2xl bg-surface-2 p-1" role="tablist" aria-label="ระบบตัวอักษร">

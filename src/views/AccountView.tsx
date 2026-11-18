@@ -18,7 +18,7 @@ export function AccountView() {
   const sync = useSync();
   return (
     <div className="space-y-5 max-w-xl">
-      <PageHeader icon="☁️" title="บัญชีและการซิงก์" subtitle="เก็บความก้าวหน้าไว้ในฐานข้อมูล เพื่อเรียนต่อได้ทุกเครื่องและไม่หายแม้ล้างเบราว์เซอร์" />
+      <PageHeader note="เรียนเครื่องไหนก็ไม่หาย ☁️" icon="☁️" title="บัญชีและการซิงก์" subtitle="เก็บความก้าวหน้าไว้ในฐานข้อมูล เพื่อเรียนต่อได้ทุกเครื่องและไม่หายแม้ล้างเบราว์เซอร์" />
       {sync.status === "disabled" ? <SetupGuide /> : sync.userId ? <SignedIn /> : <AuthForm />}
     </div>
   );

@@ -119,7 +119,7 @@ export function PracticeView() {
   const hasLessons = Object.keys(progress.completedLessons).length > 0;
   return (
     <div>
-      <PageHeader icon="✏️" title="แบบฝึกหัด" subtitle="ฝึกเพิ่มได้ตามใจ ตอบผิดได้ — ระบบจะเก็บไว้ให้ทบทวนภายหลัง" />
+      <PageHeader note="ผิดได้ ไม่เป็นไรเลย ✿" icon="✏️" title="แบบฝึกหัด" subtitle="ฝึกเพิ่มได้ตามใจ ตอบผิดได้ — ระบบจะเก็บไว้ให้ทบทวนภายหลัง" />
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {MODES.map((m) => {
           const disabled = m.id === "mix" && !hasLessons;

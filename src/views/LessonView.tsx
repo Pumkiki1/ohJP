@@ -12,7 +12,8 @@ import { updateProgress, useProgress } from "@/lib/progress/store";
 import { isCompleted, isUnlocked, nextLessonDay } from "@/lib/progress/stats";
 import type { Lesson, LessonOutline, Progress, SectionKind } from "@/lib/types";
 import { todayISO } from "@/lib/date";
-import { Badge, Button, ButtonLink, Card, cx, PageSkeleton, ProgressBar } from "@/components/ui";
+import { Badge, Button, ButtonLink, Card, cx, HandNote, PageSkeleton, ProgressBar, TitleBlock } from "@/components/ui";
+import { TochigiSketch } from "@/components/illustrations/TochigiSketch";
 import { ContentBlocks } from "@/components/learning/ContentBlocks";
 import { AudioUnavailableNote } from "@/components/learning/AudioButton";
 import { type AnswerMap, ExerciseRunner } from "@/components/exercises/ExerciseRunner";
@@ -184,6 +185,7 @@ function LessonPlayer({ lesson, progress }: { lesson: Lesson; progress: Progress
             </Badge>
           )}
         </div>
+        <HandNote className="text-lg mt-3 mb-1">แผ่นที่ {lesson.dayNumber} · ค่อย ๆ ไปทีละส่วนนะ</HandNote>
         <h1 className="text-2xl md:text-3xl font-bold">{lesson.title}</h1>
         <p className="text-ink-soft">{lesson.subtitle}</p>
       </header>
@@ -302,17 +304,21 @@ function LessonComplete({ lesson, score, total }: { lesson: Lesson; score: numbe
   const next = getScheduled(nextDay);
   return (
     <div className="max-w-2xl mx-auto space-y-5 animate-pop">
-      <Card className="p-6 md:p-10 text-center bg-sakura-soft/50 sakura-dots">
-        <p className="text-5xl" aria-hidden>
-          🎉
-        </p>
-        <h1 className="mt-2 text-2xl md:text-3xl font-bold">เรียนจบ Day {lesson.dayNumber} แล้ว!</h1>
-        <p className="mt-1 text-ink-soft">{lesson.title}</p>
-        <p className="mt-4 text-4xl font-bold">
-          {score}/{total}
-        </p>
-        <p className="text-sm text-ink-soft">คะแนนแบบฝึกหัด (นับจากการตอบครั้งแรก)</p>
-      </Card>
+      <section className="sheet rounded-xl overflow-hidden text-center">
+        <div className="p-6 md:p-8 pb-2">
+          <HandNote className="text-xl">อีกก้าวสู่โทจิงิ! 🎉</HandNote>
+          <h1 className="mt-2 text-2xl md:text-3xl font-bold">เรียนจบ Day {lesson.dayNumber} แล้ว!</h1>
+          <p className="mt-1 text-ink-soft">{lesson.title}</p>
+          <TochigiSketch className="mx-auto mt-3 w-full max-w-md h-auto" annotate={false} caption={`Day ${lesson.dayNumber} เสร็จแล้ว — ใกล้ทริปเข้าไปอีกนิด`} />
+        </div>
+        <TitleBlock
+          items={[
+            { label: "คะแนน", value: <span className="text-2xl font-bold">{score}/{total}</span> },
+            { label: "นับจาก", value: "การตอบครั้งแรก" },
+            { label: "ถัดไป", value: `Day ${lesson.dayNumber + 1}` },
+          ]}
+        />
+      </section>
       <Card className="p-5 md:p-6">
         <h2 className="font-semibold mb-2 flex items-center gap-2">
           <BookOpen size={18} className="text-sakura-deep" /> สิ่งที่ควรจำจากวันนี้

@@ -72,7 +72,7 @@ export function ReviewView() {
 
   return (
     <div className="space-y-5">
-      <PageHeader icon="🔁" title="ทบทวน" subtitle="ระบบทบทวนแบบเว้นระยะ: คำที่ตอบผิดบ่อยจะได้ทบทวนก่อน" />
+      <PageHeader note="ทวนบ่อย ๆ แล้วจะจำได้เอง ♪" icon="🔁" title="ทบทวน" subtitle="ระบบทบทวนแบบเว้นระยะ: คำที่ตอบผิดบ่อยจะได้ทบทวนก่อน" />
 
       <Card className="p-5 md:p-6 bg-sakura-soft/50">
         <div className="flex flex-wrap items-center justify-between gap-4">

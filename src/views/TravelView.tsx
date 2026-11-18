@@ -17,7 +17,7 @@ import { ExerciseRunner } from "@/components/exercises/ExerciseRunner";
 export function TravelListView() {
   return (
     <div>
-      <PageHeader icon="🗾" title="เตรียมตัวเที่ยวญี่ปุ่น" subtitle="จำลองสถานการณ์จริงตอนเที่ยวโทจิงิ — เลือกคำตอบแล้วคุยต่อได้เลย" />
+      <PageHeader note="ซ้อมพูดก่อนไปของจริง ✈️" icon="🗾" title="เตรียมตัวเที่ยวญี่ปุ่น" subtitle="จำลองสถานการณ์จริงตอนเที่ยวโทจิงิ — เลือกคำตอบแล้วคุยต่อได้เลย" />
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {TRAVEL_SCENARIOS.map((s, i) => (
           <Link key={s.id} href={`/travel/${s.id}`} className="block rounded-3xl group">

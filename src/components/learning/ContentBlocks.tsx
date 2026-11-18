@@ -67,7 +67,7 @@ function Block({ block: b }: { block: ContentBlock }) {
             const k = getKana(c);
             if (!k) return null;
             return (
-              <div key={c} className="rounded-3xl border border-line bg-surface p-4 text-center flex flex-col items-center gap-1">
+              <div key={c} className="sheet rounded-xl p-4 text-center flex flex-col items-center gap-1">
                 <JP className="kana-display text-6xl md:text-7xl leading-none py-2">{k.char}</JP>
                 <p className="text-lg font-semibold">{k.romaji}</p>
                 <p className="text-sm text-ink-soft">เสียง “{k.thai}”</p>

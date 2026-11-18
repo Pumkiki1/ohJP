@@ -33,7 +33,7 @@ export function createInitialProgress(): Progress {
     favoriteVocabulary: [],
     quizStats: { correct: 0, total: 0 },
     lastStudyDate: null,
-    settings: { theme: "system", reminderTime: null, dailyGoalMinutes: 20 },
+    settings: { theme: "light", reminderTime: null, dailyGoalMinutes: 20 },
   };
 
   // The learner already studied Day 1 on the course start date (score 5/5).
@@ -66,13 +66,18 @@ function isProgress(v: unknown): v is Progress {
   return o.version === 1 && typeof o.completedLessons === "object" && Array.isArray(o.studyDates);
 }
 
+/** Light is the default; a saved theme only applies if the learner chose it. */
+function withDefaultTheme(s: Progress["settings"]): Progress["settings"] {
+  return s.themeChosen ? s : { ...s, theme: "light" };
+}
+
 /** Fill in fields that older saves may be missing. */
 function migrate(p: Progress): Progress {
   const init = createInitialProgress();
   return {
     ...init,
     ...p,
-    settings: { ...init.settings, ...(p.settings ?? {}) },
+    settings: withDefaultTheme({ ...init.settings, ...(p.settings ?? {}) }),
     quizStats: p.quizStats ?? init.quizStats,
   };
 }

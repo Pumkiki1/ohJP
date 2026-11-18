@@ -32,7 +32,7 @@ export function SettingsView() {
 
   return (
     <div className="space-y-5 max-w-2xl">
-      <PageHeader icon="⚙️" title="ตั้งค่า" />
+      <PageHeader note="ปรับให้เหมาะกับตัวเอง" icon="⚙️" title="ตั้งค่า" />
       {message && (
         <div role="status" className={cx("rounded-2xl px-4 py-3 text-sm", message.ok ? "bg-matcha-soft text-matcha-deep" : "bg-danger-soft text-danger")}>
           {message.text}
@@ -53,7 +53,7 @@ export function SettingsView() {
               key={v}
               role="radio"
               aria-checked={s.theme === v}
-              onClick={() => updateProgress((p) => updateSettings(p, { theme: v }))}
+              onClick={() => updateProgress((p) => updateSettings(p, { theme: v, themeChosen: true }))}
               className={cx(
                 "rounded-2xl border-2 p-3 flex flex-col items-center gap-1 text-sm font-medium",
                 s.theme === v ? "border-sakura-deep bg-sakura-soft text-sakura-deep" : "border-line hover:bg-surface-2",

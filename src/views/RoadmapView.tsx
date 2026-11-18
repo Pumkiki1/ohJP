@@ -16,7 +16,7 @@ export function RoadmapView() {
 
   return (
     <div>
-      <PageHeader
+      <PageHeader note="เส้นทาง 342 วัน สู่โทจิงิ 🗾"
         icon="🗺️"
         title="แผนการเรียน"
         subtitle={`${TOTAL_DAYS} บทเรียน วันละ 20 นาที · ${formatThaiDate(SCHEDULE[0].date)} → ทริปโทจิงิ ${formatThaiDate(TRIP_START, { day: "numeric", month: "short" })}–${formatThaiDate(TRIP_END)}`}

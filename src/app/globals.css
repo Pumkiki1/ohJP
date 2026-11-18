@@ -3,11 +3,11 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 /* ------------------------------------------------------------------ */
-/* Design tokens — soft Japanese minimalism                            */
+/* Design tokens — cute sketchbook: paper, pencil lines, watercolour   */
 /* ------------------------------------------------------------------ */
 :root {
-  --bg: #fff9f0; /* warm cream */
-  --surface: #ffffff; /* white cards */
+  --bg: #fff9f0; /* warm cream paper */
+  --surface: #fffdf8; /* drawing-sheet white */
   --surface-2: #f1e8dc; /* light beige */
   --ink: #343434; /* dark text */
   --ink-soft: #6b625d;
@@ -17,17 +17,23 @@
   --matcha: #b8c9a3;
   --matcha-soft: #e7eedd;
   --matcha-deep: #4a6636;
-  --line: #ece1d4;
+  --line: #e6d9c8;
+  --sketch: #5e4f45; /* pencil line */
+  --sketch-soft: #d8c8b4; /* light pencil / offset shadow */
+  --wash-sky: #cfe0e8; /* watercolour sky */
+  --wash-maple: #d9734f; /* watercolour autumn red */
+  --wash-gold: #e8b95a;
   --danger: #b6403a;
   --danger-soft: #fbe3e0;
-  --shadow: 0 1px 2px rgb(52 52 52 / 0.04), 0 6px 20px rgb(52 52 52 / 0.06);
+  --shadow: 3px 3px 0 var(--sketch-soft);
+  --paper-noise: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .45 0 0 0 0 .36 0 0 0 0 .26 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   color-scheme: light;
 }
 
 .dark {
-  --bg: #1d1a19;
-  --surface: #282322;
-  --surface-2: #332c2a;
+  --bg: #1f1b19;
+  --surface: #29231f;
+  --surface-2: #342c27;
   --ink: #f4ede7;
   --ink-soft: #bcb1a9;
   --sakura: #c47f95;
@@ -36,10 +42,16 @@
   --matcha: #7d9668;
   --matcha-soft: #2f3a28;
   --matcha-deep: #bcd6a5;
-  --line: #3b3330;
+  --line: #3d342e;
+  --sketch: #cbb9a6;
+  --sketch-soft: #4a3f37;
+  --wash-sky: #34495a;
+  --wash-maple: #c0603f;
+  --wash-gold: #b98e3d;
   --danger: #f08e86;
   --danger-soft: #4a2826;
-  --shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 6px 20px rgb(0 0 0 / 0.25);
+  --shadow: 3px 3px 0 #120f0d;
+  --paper-noise: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 .95 0 0 0 0 .9 0 0 0 .045 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   color-scheme: dark;
 }
 
@@ -56,10 +68,14 @@
   --color-matcha-soft: var(--matcha-soft);
   --color-matcha-deep: var(--matcha-deep);
   --color-line: var(--line);
+  --color-sketch: var(--sketch);
+  --color-sketch-soft: var(--sketch-soft);
   --color-danger: var(--danger);
   --color-danger-soft: var(--danger-soft);
   --shadow-soft: var(--shadow);
   --font-sans: var(--nf-thai), var(--nf-jp), system-ui, sans-serif;
+  --font-display: var(--nf-display), var(--nf-thai), var(--nf-jp), sans-serif;
+  --font-hand: var(--nf-hand), var(--nf-display), cursive;
   --font-jp: var(--nf-jp), "Hiragino Sans", "Yu Gothic", "Noto Sans JP", sans-serif;
   --font-kana: var(--nf-kana), var(--nf-jp), "Hiragino Mincho ProN", serif;
   --animate-pop: pop 260ms ease-out;
@@ -80,16 +96,26 @@
   25% { transform: translateX(-4px); }
   75% { transform: translateX(4px); }
 }
+@keyframes draw-in {
+  from { stroke-dashoffset: 1; }
+  to { stroke-dashoffset: 0; }
+}
 
 html {
   -webkit-text-size-adjust: 100%;
 }
 
 body {
-  background: var(--bg);
+  background-color: var(--bg);
+  background-image: var(--paper-noise);
   color: var(--ink);
   font-family: var(--font-sans);
   line-height: 1.6;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  letter-spacing: -0.005em;
 }
 
 :focus-visible {
@@ -107,10 +133,87 @@ body {
   font-family: var(--font-kana);
 }
 
-/* subtle sakura pattern used in hero cards */
+/* ------------------------------ sketch kit ------------------------------ */
+
+/* handwritten margin note, like a pencil annotation */
+.hand-note {
+  font-family: var(--font-hand);
+  color: var(--sakura-deep);
+  line-height: 1.25;
+  display: inline-block;
+  transform: rotate(-2deg);
+  transform-origin: left center;
+}
+
+/* drawing sheet: pencil border, inner frame line, hard offset shadow */
+.sheet {
+  position: relative;
+  background-color: var(--surface);
+  border: 1.5px solid var(--sketch);
+  box-shadow: inset 0 0 0 5px var(--surface), inset 0 0 0 6px var(--sketch-soft), 5px 5px 0 var(--sketch-soft);
+}
+
+/* wavy pencil underline for an accent word */
+.squiggle {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='8' viewBox='0 0 40 8'%3E%3Cpath d='M0 4 Q5 0 10 4 T20 4 T30 4 T40 4' fill='none' stroke='%23eba6b9' stroke-width='2.2' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+  background-position: 0 100%;
+  background-size: 22px 7px;
+  padding-bottom: 6px;
+}
+
+/* faint drafting grid used behind illustrations */
+.drafting-grid {
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+/* title-block table, like the info strip under an architectural drawing */
+.title-block {
+  display: grid;
+  border-top: 1.5px solid var(--sketch);
+}
+.title-block > * {
+  padding: 0.5rem 0.75rem;
+  border-left: 1px solid var(--sketch-soft);
+  min-width: 0;
+}
+.title-block > *:first-child {
+  border-left: 0;
+}
+/* phones: 2 × 2 grid; wider screens: one row (columns set inline via --tb-cols) */
+@media (max-width: 639px) {
+  .title-block[data-wrap] {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+  .title-block[data-wrap] > *:nth-child(odd) {
+    border-left: 0;
+  }
+  .title-block[data-wrap] > *:nth-child(n + 3) {
+    border-top: 1px solid var(--sketch-soft);
+  }
+}
+.tb-label {
+  display: block;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+/* subtle sakura pattern (kept for small accents) */
 .sakura-dots {
   background-image: radial-gradient(var(--sakura-soft) 1.5px, transparent 1.5px);
   background-size: 18px 18px;
+}
+
+.draw-path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+  animation: draw-in 1.6s ease-out both;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -124,4 +227,5 @@ body {
   .no-print { display: none !important; }
   body { background: white; color: black; }
   .print-break { break-inside: avoid; }
+  .sheet { box-shadow: none; }
 }

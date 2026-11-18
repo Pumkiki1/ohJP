@@ -389,5 +389,11 @@ export interface Progress {
   lastStudyDate: string | null;
   /** ISO timestamp of the last local change (used to resolve settings when syncing) */
   updatedAt?: string;
-  settings: { theme: "light" | "dark" | "system"; reminderTime: string | null; dailyGoalMinutes: number };
+  settings: {
+    theme: "light" | "dark" | "system";
+    /** true once the learner picks a theme themselves; until then the app uses light */
+    themeChosen?: boolean;
+    reminderTime: string | null;
+    dailyGoalMinutes: number;
+  };
 }

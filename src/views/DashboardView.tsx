@@ -18,7 +18,8 @@ import {
   nextLessonDay,
   totalStudyMinutes,
 } from "@/lib/progress/stats";
-import { Badge, ButtonLink, Card, CardTitle, JP, PageSkeleton, ProgressBar, ProgressRing } from "@/components/ui";
+import { Badge, ButtonLink, Card, CardTitle, HandNote, JP, PageSkeleton, ProgressBar, ProgressRing, TitleBlock } from "@/components/ui";
+import { TochigiSketch } from "@/components/illustrations/TochigiSketch";
 import { DailyCalendar } from "@/components/learning/DailyCalendar";
 import { LessonCard } from "@/components/learning/LessonCard";
 
@@ -70,30 +71,44 @@ export function DashboardView() {
 
   return (
     <div className="space-y-6">
-      {/* Greeting */}
-      <section className="rounded-3xl bg-sakura-soft/70 sakura-dots p-5 md:p-7 relative overflow-hidden">
-        <p className="text-sm text-ink-soft">
-          <CalendarDays size={14} className="inline -mt-0.5 mr-1" />
-          {formatThaiDate(today, { weekday: "long", day: "numeric", month: "long", year: "numeric" })}
-        </p>
-        <h1 className="mt-1 text-2xl md:text-3xl font-bold">
-          <JP>{g.jp}</JP> <span className="text-xl md:text-2xl font-semibold">วันนี้มาเรียนภาษาญี่ปุ่นกันเถอะ 🌸</span>
-        </h1>
-        <p className="mt-2 text-ink-soft">{message}</p>
-        <div className="mt-4 flex flex-wrap gap-2">
-          <Badge tone="sakura">
-            <BookOpen size={12} /> บทเรียน Day {next}
-          </Badge>
-          <Badge tone="matcha">
-            <Target size={12} /> ระดับ: {level.label}
-          </Badge>
-          <Badge tone="beige">{level.detail}</Badge>
-          {daysToTrip > 0 && (
-            <Badge tone="beige">
-              <Plane size={12} /> อีก {daysToTrip} วันถึงทริปโทจิงิ
+      {/* Greeting — sketchbook hero */}
+      <section className="grid grid-cols-1 lg:grid-cols-[1fr_1.05fr] gap-6 lg:gap-8 items-center">
+        <div>
+          <HandNote className="text-lg md:text-xl">ร่างไว้ทีละนิด วันละ 20 นาที ✏️</HandNote>
+          <p className="mt-2 text-sm text-ink-soft">
+            <CalendarDays size={14} className="inline -mt-0.5 mr-1" />
+            {formatThaiDate(today, { weekday: "long", day: "numeric", month: "long", year: "numeric" })}
+          </p>
+          <h1 className="mt-1 text-3xl md:text-4xl font-bold leading-tight">
+            <JP className="font-[family-name:var(--font-display)]">{g.jp}</JP>
+            <br />
+            วันนี้มา<span className="squiggle text-sakura-deep">เรียนญี่ปุ่น</span>
+            <span className="whitespace-nowrap">กันเถอะ 🌸</span>
+          </h1>
+          <p className="mt-3 text-ink-soft text-[15px]">{message}</p>
+          <div className="mt-4 flex flex-wrap gap-2">
+            <Badge tone="sakura">
+              <BookOpen size={12} /> บทเรียน Day {next}
             </Badge>
-          )}
+            <Badge tone="matcha">
+              <Target size={12} /> ระดับ: {level.label}
+            </Badge>
+            <Badge tone="beige">{level.detail}</Badge>
+          </div>
         </div>
+        <figure className="sheet rounded-xl overflow-hidden">
+          <div className="px-3 pt-3">
+            <TochigiSketch className="w-full h-auto" />
+          </div>
+          <TitleBlock
+            items={[
+              { label: "โปรเจกต์", value: "ทริปโทจิงิ 🍁" },
+              { label: "บทเรียน", value: `Day ${next} / ${TOTAL_DAYS}` },
+              { label: "เป้าหมาย", value: `${goal} นาที/วัน` },
+              { label: "ถึงทริป", value: daysToTrip > 0 ? `อีก ${daysToTrip} วัน` : "ถึงแล้ว! ✈️" },
+            ]}
+          />
+        </figure>
       </section>
 
       {showReminder && (
@@ -104,7 +119,8 @@ export function DashboardView() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
         {/* Today's lesson */}
-        <Card className="lg:col-span-2 p-5 md:p-6">
+        <section className="sheet rounded-xl lg:col-span-2 overflow-hidden flex flex-col">
+          <div className="p-5 md:p-6 flex-1">
           <CardTitle icon={<BookOpen size={18} />} action={<Badge tone={completedFocus ? "matcha" : draft ? "sakura" : "neutral"}>{status}</Badge>}>
             บทเรียนวันนี้
           </CardTitle>
@@ -134,7 +150,16 @@ export function DashboardView() {
               </Link>
             </p>
           )}
-        </Card>
+          </div>
+          <TitleBlock
+            items={[
+              { label: "แผ่นที่", value: `Day ${focus.dayNumber}` },
+              { label: "เฟส", value: `${focus.phase} · ${getPhase(focus.phase).title}` },
+              { label: "เวลา", value: `~${focus.estimatedMinutes} นาที` },
+              { label: "สถานะ", value: status },
+            ]}
+          />
+        </section>
 
         {/* Daily goal */}
         <Card className="p-5 md:p-6 flex flex-col items-center text-center">
